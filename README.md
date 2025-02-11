@@ -56,6 +56,7 @@ actions:
 ```
 
 This gave me a simple ooverview of my pump oeration and status:
+
 ![image](https://github.com/user-attachments/assets/996b4e93-9c18-4a41-9cc9-92a99cc6c94b)
 
 However I was still interested to know how much rainwater I had in my underground storage tank and whether or not the design of roof area was providing sufficient water to meet the house's demand.
@@ -63,9 +64,14 @@ About this time Rainwater Harvesting launched a new undergound, [in tank monitor
 
 So I decided to independently build my own tank level sensor based on the modbus version of [QDY30A product]9https://a.aliexpress.com/_EjQJvbW).
 I chose this as I had recent successful experience of an Arduino nano-33 based modbus interface to a Solaris solar inverter.
-Arduino products had become difficult to obtain so I decided to switch to a WemosD-1 product but I had some issues porting the mqtt code and decided to jump directly into EspHome.
+Arduino products had become difficult to obtain so I decided to switch to a WemosD-1 product.
+The QDY30A needs a 20V supply and the Wemos needs 5V so I got this [power supply](https://www.ebay.co.uk/itm/295877465206?var=594084681451) from eBay.
+The [TTL-RS485 interface[( that I used 
+but I had some issues porting the mqtt code and decided to jump directly into EspHome.
 
-
+I just found this on AliExpress: 
+￡0.68 | 1~10PCS TTL Turn To RS485 Module 485 To Serial UART Level Mutual Conversion Hardware Automatic Flow Control Power Supply Module
+https://a.aliexpress.com/_EHIAcRK
 -tank-level-sensor Work in Progress
 I just found this on AliExpress: 
 ￡28.59 | 4-20mA 0-10V 0-5V RS485 Submerged Liquid Tank Stainless Steel Hydraulic Deep Well Water Level Sensor Transmitter
