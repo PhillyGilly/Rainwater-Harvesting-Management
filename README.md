@@ -155,6 +155,11 @@ sensor:
 ```
 This creates two sensors which are shone in Home Assistant as:
 
-
 ![image](https://github.com/user-attachments/assets/0c1adee1-340c-4464-98e8-3765311c9c77)
 
+The level sensor is presently installed in the header tank and the steps down on the history graph represent discrete toilet flushes.
+
+# Next steps are:
+to move it into the underground tank. I am going to extend the lead by soldering its connectors to a legth of four core cable.
+The joints will be protected in a small junction box to be screwed to the side of the tank neck, with the extending cable being pulled back through the power/water duck into the house where the electrronics will be located in one or more small enclosures.
+I would like to complete this before the end of spring 2025, so that I can monitor how water is used over the summer.
