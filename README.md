@@ -56,7 +56,7 @@ actions:
     action: counter.increment
 ```
 
-This gave me a simple ooverview of my pump operation and status:
+This gave me a simple overview of my pump operation and status:
 
 ![image](https://github.com/user-attachments/assets/996b4e93-9c18-4a41-9cc9-92a99cc6c94b)
 
@@ -71,11 +71,90 @@ The [TTL-RS485 interface](https://a.aliexpress.com/_EHIAcRK) came from AliExpres
 
 After assembling the hardware as below: 
 
+![2025-01-30 17 16 27](https://github.com/user-attachments/assets/f091f2ce-fabc-4518-b8aa-d546361701b8)
+
 I stumbled across [this discussion](https://community.home-assistant.io/t/water-level-sensor-qdy30a-modbus-rs485-with-esp32-s2-mini/698712/4) regarding a very similar application.
 Since I was having a few problems porting my arduino mqtt code to wemos, I decided to jump on the EspHome bus.
+My yaml code is:
+```
+esphome:
+  name: "water-level-sensor"
+  friendly_name: Wemos Mini D1 - Water Level Sensor
+  min_version: 2024.11.0
+  name_add_mac_suffix: false
 
+esp8266:
+  board: esp01_1m #Pinout: WemosMini1D.jpg
 
-![2025-01-30 17 16 27](https://github.com/user-attachments/assets/f091f2ce-fabc-4518-b8aa-d546361701b8)
+# Enable logging  
+logger:
+  level: DEBUG #VERY_VERBOSE
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+
+# Allow Over-The-Air updates
+ota:
+- platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap: {}
+
+captive_portal:
+
+web_server:
+  port: 80
+  version: 2
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+uart:
+  tx_pin: GPIO1
+  rx_pin: GPIO3
+  baud_rate: 9600
+  data_bits: 8
+  stop_bits: 1
+  parity: NONE
+  #debug:
+
+modbus:
+#  flow_control_pin: GPIO2
+  id: modbus1
+#  disable_crc: true
+
+modbus_controller:
+- id: modbus_device
+  address: 0x01   ## address of the Modbus slave device on the bus
+  modbus_id: modbus1
+  setup_priority: -10
+  update_interval: 5s
+
+sensor:
+# Reports how long the device has been powered (in days)
+  - platform: uptime
+    name: Uptime
+    filters:
+      - lambda : return x / 86400.0 ) }
+    unit_of_measurement: days
+ 
+# from register 0x002 we know that the units are cm
+# but from register 0x003 there is a decimal shift of one place 
+  - platform: modbus_controller
+    modbus_controller_id: modbus_device
+    name: "Water level"
+    id: modbus_water_level
+    register_type: holding
+    address: 0x0004
+    unit_of_measurement: mm
+    value_type: S_WORD
+```
+This creates two sensors which are shone in Home Assistant as:
+
 
 ![image](https://github.com/user-attachments/assets/0c1adee1-340c-4464-98e8-3765311c9c77)
 
