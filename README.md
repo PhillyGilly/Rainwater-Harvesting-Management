@@ -126,9 +126,7 @@ uart:
   #debug:
 
 modbus:
-#  flow_control_pin: GPIO2
   id: modbus1
-#  disable_crc: true
 
 modbus_controller:
 - id: modbus_device
