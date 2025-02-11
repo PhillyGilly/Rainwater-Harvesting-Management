@@ -71,7 +71,8 @@ The [TTL-RS485 interface](https://a.aliexpress.com/_EHIAcRK) came from AliExpres
 
 After assembling the hardware as below: 
 
-![2025-01-30 17 16 27](https://github.com/user-attachments/assets/f091f2ce-fabc-4518-b8aa-d546361701b8)
+![2025-01-30 17 16 27](https://github.com/user-attachments/assets/b723df25-0618-4a86-b751-4bb50e795e4c)
+
 
 I stumbled across [this discussion](https://community.home-assistant.io/t/water-level-sensor-qdy30a-modbus-rs485-with-esp32-s2-mini/698712/4) regarding a very similar application.
 Since I was having a few problems porting my arduino mqtt code to wemos, I decided to jump on the EspHome bus.
