@@ -71,6 +71,8 @@ The [TTL-RS485 interface](https://a.aliexpress.com/_EHIAcRK) came from AliExpres
 
 After assembling the hardware as below: 
 
+![QDY30A level monitor_bb](https://github.com/user-attachments/assets/a1b994a4-3a81-4181-8b0d-a5d6919e8bb6)
+
 ![2025-01-30 17 16 27](https://github.com/user-attachments/assets/b723df25-0618-4a86-b751-4bb50e795e4c)
 
 
