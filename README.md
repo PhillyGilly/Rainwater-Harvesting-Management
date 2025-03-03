@@ -33,7 +33,7 @@ The Power reading is used to detect when the pump is running and this sets the s
       state: >
         {{ as_timestamp(states.sensor.rain_pump_status.last_changed)|timestamp_custom('%A %B %-d, %H:%M') }}
 ```
-and
+and in homeassistant\automations.yaml:
 ```
 alias: 15. Rain Pump Count Increment
 description: ""
