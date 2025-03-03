@@ -159,31 +159,14 @@ Which (forgive the soldering!) looks like this on a breadboard and assembles lik
 The electronics in my house are connected to the level sensor in the tank by approx 12m of 4-core cable and a junction box in the neck of the tank.
 ![2025-02-27 11 40 04](https://github.com/user-attachments/assets/f4d7414c-6e33-402f-bf08-966de9269ef5)
 
-This creates two sensors which are shone in Home Assistant as:
+This creates a new device in Home Assistant:
+![image](https://github.com/user-attachments/assets/16e215a6-09b7-4e6d-aa66-c957d62e8bb9)
 
-![image](https://github.com/user-attachments/assets/0c1adee1-340c-4464-98e8-3765311c9c77)
-
-The level sensor is presently installed in the header tank and the steps down on the history graph represent discrete toilet flushes.
-
-# Next steps are:
-to move it into the underground tank. I am going to extend the lead by soldering its connectors to a legth of four core cable.
-The joints will be protected in a small junction box to be screwed to the side of the tank neck, with the extending cable being pulled back through the power/water duck into the house where the electrronics will be located in one or more small enclosures.
-I would like to complete this before the end of spring 2025, so that I can monitor how water is used over the summer.
-
-![2025-02-27 10 45 38](https://github.com/user-attachments/assets/34e587ce-ff85-4351-a611-93df8bead9cd)
-
-![2025-02-27 11 40 15](https://github.com/user-attachments/assets/566e1dc8-b1cd-4732-bc1b-d38faee6233b)
-
-![2025-03-03 13 44 24](https://github.com/user-attachments/assets/85ed4607-e059-443d-9786-0661f164204c)
-
-![2025-03-03 13 46 38](https://github.com/user-attachments/assets/8aa2dcc8-9ef9-4b64-be4f-aa1e4a45b83d)
-
-
-https://check-for-flooding.service.gov.uk/river-and-sea-levels
+The final piece of the jigsaw is to monitor local rainfall so that we know what is going into the tank.
+This could be through a local connected sensor or else caould be from the recently launched [DEFRA check for flooding service] (https://check-for-flooding.service.gov.uk/river-and-sea-levels).
+When you have determined your nearest monitoring station in the form Xnnnn, the data can be presented in Home Assistant by using a "scrape" and the code is:
 
 ```
-scrape: !include scrape.yaml
-
 - resource: https://check-for-flooding.service.gov.uk/rainfall-station/Xnnnn
   scan_interval: 21600
   sensor:
@@ -195,3 +178,5 @@ scrape: !include scrape.yaml
       state_class: measurement
       unit_of_measurement: mm
 ```
+The resultant display in HA is:
+![image](https://github.com/user-attachments/assets/8c9c36bf-9c66-452f-83e1-dc22eca99810)
