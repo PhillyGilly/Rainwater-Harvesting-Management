@@ -173,3 +173,20 @@ I would like to complete this before the end of spring 2025, so that I can monit
 
 ![2025-03-03 13 46 38](https://github.com/user-attachments/assets/8aa2dcc8-9ef9-4b64-be4f-aa1e4a45b83d)
 
+
+https://check-for-flooding.service.gov.uk/river-and-sea-levels
+
+```
+scrape: !include scrape.yaml
+
+- resource: https://check-for-flooding.service.gov.uk/rainfall-station/Xnnnn
+  scan_interval: 21600
+  sensor:
+    - name: "Rainfall last 24hr"
+      unique_id: rainfalllast24hr
+      icon: mdi:weather-rainy
+      select: "#main-content > div:nth-child(3) > div > div > dl > div:nth-child(3) > dd"
+      value_template: '{{ value.split("m")[0] }}'
+      state_class: measurement
+      unit_of_measurement: mm
+```
