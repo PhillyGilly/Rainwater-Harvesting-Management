@@ -65,40 +65,35 @@ However I was still interested to know how much rainwater I had in my undergroun
 So I decided to independently build my own tank level sensor based on the modbus version of the [QDY30A product](https://a.aliexpress.com/_EjQJvbW).
 I chose this as wanted a waterpressure depth measurement, not an ultrasonic level probe, and I went for modbus because I had recent successful experience of an Arduino nano-33 based modbus interface to a Solaris solar inverter.
 At the time Arduino products had become difficult to obtain and were also overkill for this application, so I decided to switch to an ESP32 product.
+
 The QDY30A needs a 20V supply and the ESP32 needs 5V so I got this [power supply](https://www.ebay.co.uk/itm/295877465206?var=594084681451) from eBay.
-The [TTL-RS485 interface](https://a.aliexpress.com/_EHIAcRK) came from AliExpress as did the [ESP32S WROOM](https://a.aliexpress.com/_EzcOL0M)
-
-After assembling the hardware as below: 
-
-![image](https://github.com/user-attachments/assets/d7287d88-5745-48a2-b78c-34bd0d4b751c)
-
-![2025-01-30 17 16 27](https://github.com/user-attachments/assets/b723df25-0618-4a86-b751-4bb50e795e4c)
-
+The [TTL-RS485 interface](https://a.aliexpress.com/_EHIAcRK) came from AliExpress as did the [ESP32S WROOM](https://a.aliexpress.com/_EzcOL0M) and the enclosure.
 
 I stumbled across [this discussion](https://community.home-assistant.io/t/water-level-sensor-qdy30a-modbus-rs485-with-esp32-s2-mini/698712/4) regarding a very similar application.
 Since I was having a few problems porting my arduino mqtt code to ESP32, I decided to jump on the EspHome bus.
-My yaml code is:
+
+The yaml code is:
 ```
 esphome:
-  name: "water-level-sensor"
-  friendly_name: Wemos Mini D1 - Water Level Sensor
+  name: "esp32-water-level-sensor"
+  friendly_name: ESP32 Water Level Sensor
   min_version: 2024.11.0
   name_add_mac_suffix: false
 
-esp8266:
-  board: esp01_1m #Pinout: WemosMini1D.jpg
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
 
-# Enable logging  
 logger:
   level: DEBUG #VERY_VERBOSE
-  baud_rate: 0
+  baud_rate: 9600
+  #baud_rate: 0
 
-# Enable Home Assistant API
 api:
 
-# Allow Over-The-Air updates
 ota:
-- platform: esphome
+  - platform: esphome
 
 wifi:
   ssid: !secret wifi_ssid
@@ -132,16 +127,16 @@ modbus_controller:
   address: 0x01   ## address of the Modbus slave device on the bus
   modbus_id: modbus1
   setup_priority: -10
-  update_interval: 5s
+  update_interval: 15s #60s
 
 sensor:
 # Reports how long the device has been powered (in days)
   - platform: uptime
-    name: Uptime
+    name: "Uptime Days"
     filters:
-      - lambda : return x / 86400.0 ) }
+      - lambda : return (x / 86400.0) ;
     unit_of_measurement: days
- 
+    
 # from register 0x002 we know that the units are cm
 # but from register 0x003 there is a decimal shift of one place 
   - platform: modbus_controller
@@ -153,6 +148,17 @@ sensor:
     unit_of_measurement: mm
     value_type: S_WORD
 ```
+
+The Fritzing sketch shows the logical connections: 
+
+![image](https://github.com/user-attachments/assets/d7287d88-5745-48a2-b78c-34bd0d4b751c)
+
+Which (forgive the soldering!) looks like this on a breadboard and assembles like this:
+![2025-03-03 13 44 24](https://github.com/user-attachments/assets/d9707095-8c6e-4e6b-8a76-1e9f29e51792)
+![2025-03-03 13 46 38](https://github.com/user-attachments/assets/6df39f71-0340-40f3-80d0-93aa304dcf99)
+The electronics in my house are connected to the level sensor in the tank by approx 12m of 4-core cable and a junction box in the neck of the tank.
+![2025-02-27 11 40 04](https://github.com/user-attachments/assets/f4d7414c-6e33-402f-bf08-966de9269ef5)
+
 This creates two sensors which are shone in Home Assistant as:
 
 ![image](https://github.com/user-attachments/assets/0c1adee1-340c-4464-98e8-3765311c9c77)
