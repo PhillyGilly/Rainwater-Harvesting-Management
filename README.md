@@ -60,8 +60,7 @@ This gave me a simple overview of my pump operation and status:
 
 ![image](https://github.com/user-attachments/assets/996b4e93-9c18-4a41-9cc9-92a99cc6c94b)
 
-However I was still interested to know how much rainwater I had in my underground storage tank and whether or not the design of roof area was providing sufficient water to meet the house's demand.
-About this time Rainwater Harvesting launched a new undergound, [in tank monitoring system](https://www.rainwaterharvesting.co.uk/product/rain-acculevel-level-sensor-for-f-line-tanks/) and although this looks quite neat, it is a cloud based sytem accessed via a proprietary app and therefore cannot be integrated into Home Assistant (or any other system)
+However I was still interested to know how much rainwater I had in my underground storage tank and initially was interested in the Rainwater Harvesting new undergound, [in tank monitoring system](https://www.rainwaterharvesting.co.uk/product/rain-acculevel-level-sensor-for-f-line-tanks/) Although this looks quite neat, it is a cloud based sytem accessed via a proprietary app and therefore cannot be integrated into Home Assistant (or any other system) which wasn't going to work for me.
 
 So I decided to independently build my own tank level sensor based on the modbus version of the [QDY30A product](https://a.aliexpress.com/_EjQJvbW).
 I chose this as wanted a waterpressure depth measurement, not an ultrasonic level probe, and I went for modbus because I had recent successful experience of an Arduino nano-33 based modbus interface to a Solaris solar inverter.
