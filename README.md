@@ -178,5 +178,33 @@ When you have determined your nearest monitoring station in the form Xnnnn, the 
       state_class: measurement
       unit_of_measurement: mm
 ```
+What about cumulative rainfall?
+
 The resultant display in HA is:
 ![image](https://github.com/user-attachments/assets/8c9c36bf-9c66-452f-83e1-dc22eca99810)
+
+ps you can also add flood risk:
+```      
+- resource: https://check-for-flooding.service.gov.uk/station/6038
+  scan_interval: 21600
+  sensor:
+    - name: "Flood Height"
+      unique_id: floodheight
+      icon: mdi:home-flood
+      select: "#main-content > div:nth-child(3) > div > div > dl > div:nth-child(1) > dd"
+      value_template: '{{ value.split("m")[0] }}'
+      state_class: measurement
+      unit_of_measurement: m
+    
+    - name: "Flood Trend"
+      unique_id: floodtrend
+      icon: mdi:home-flood
+      select: "#main-content > div:nth-child(3) > div > div > dl > div:nth-child(2) > dd"
+      value_template: '{{ value|string }}'
+
+    - name: "Flood State"
+      unique_id: floodstate
+      icon: mdi:home-flood
+      select: "#main-content > div:nth-child(3) > div > div > dl > div:nth-child(3) > dd"
+      value_template: '{{ value|string }}'
+```
