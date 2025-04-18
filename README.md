@@ -178,7 +178,24 @@ When you have determined your nearest monitoring station in the form Xnnnn, the 
       state_class: measurement
       unit_of_measurement: mm
 ```
-What about cumulative rainfall?
+What about cumulative rainfall? Is this reliable?
+```
+- trigger:
+    - platform: time
+      at: "11:00:01"
+  sensor:
+    - name: "Cumulative Rainfall"
+      unique_id: cumulativerainfall
+      unit_of_measurement: mm
+      icon: mdi:sigma
+      state: >
+        {% if  (states('sensor.cumulative_rainfall') == 'unknown') %}
+           {% set Cumulative_Rainfall = states('sensor.rainfall_last_24hr')|float %}
+        {% else %}
+          {% set Cumulative_Rainfall = states('sensor.rainfall_last_24hr')|float + states('sensor.cumulative_rainfall')|float %}
+        {% endif %}
+        {{Cumulative_Rainfall|round(1)}}
+```
 
 The resultant display in HA is:
 ![image](https://github.com/user-attachments/assets/8c9c36bf-9c66-452f-83e1-dc22eca99810)
